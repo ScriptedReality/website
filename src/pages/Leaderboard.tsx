@@ -6,6 +6,27 @@ import { Modal, Button, TextInput } from "@mantine/core";
 import { useDisclosure } from '@mantine/hooks';
 import "@mantine/core/styles.css";
 import classes from "../styles/FloatingLabelInput.module.css";
+import { MongoClient } from 'mongodb';
+
+const uri = 'mongodb://localhost:27017'; //TODO: replace with actual server when it is up
+const client = new MongoClient(uri);
+async function run() {
+    try {
+        await client.connect();
+        console.log("Connected to MongoDB!");
+        const database = client.db('myDatabase'); //TODO: Replace with actual database
+        //@ts-expect-error ESLint and typescript are shitting themselves over the unused variable
+        const collection = database.collection('myCollection'); //TODO: replace with actual connection
+
+    } catch (error) {
+        console.error("Error connecting to MongoDB:", error);
+    } finally {
+        // Close the connection
+        await client.close();
+    }
+}
+
+run().catch(console.error);
 
 
 const data: LeaderboardEntry[] = [
